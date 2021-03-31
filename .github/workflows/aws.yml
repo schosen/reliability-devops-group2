@@ -26,8 +26,7 @@
 name: Deploy EC2
 on:
   push:
-    branches:
-      - develop
+    branches: [ main ]   
   pull_request:
     types: [closed]
 jobs:
