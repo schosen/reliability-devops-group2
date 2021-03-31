@@ -17,7 +17,7 @@ jobs:
           script: |
             mkdir -p ~/my-express-app/ # create a new folder
             cd ~/my-express-app/ # navigate into the folder
-            git clone https://github.com/Bradleykingz/github-actions-tutorial app # clone the repo into the 'app' folder
-            cd github-actions-tutorial # navigate into the repo
+            git clone https://github.com/schosen/reliability-devops-group2.git app # clone the repo into the 'app' folder
+            cd reliability-devops-group2 # navigate into the repo
             npm install # install dependencies 
             pm2 start app.js # start as a background service.
