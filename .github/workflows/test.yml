@@ -1,0 +1,23 @@
+name: Deploy application
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy NodeJS app
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            mkdir -p ~/my-express-app/ # create a new folder
+            cd ~/my-express-app/ # navigate into the folder
+            git clone https://github.com/Bradleykingz/github-actions-tutorial app # clone the repo into the 'app' folder
+            cd github-actions-tutorial # navigate into the repo
+            npm install # install dependencies 
+            pm2 start app.js # start as a background service.
