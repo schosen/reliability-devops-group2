@@ -28,8 +28,8 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  deploy:
-  #   if: github.event.pull_request.merged == true
+  merge-PR:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
