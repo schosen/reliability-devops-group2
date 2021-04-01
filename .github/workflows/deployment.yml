@@ -39,15 +39,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
           
-      # - name: Deploy to AWS
-      #   run: |
-      #     aws deploy create-deployment \
-      #     --application-name ${{ matrix.app-name }} \
-      #     --deployment-config-name CodeDeployDefault.OneAtATime \
-      #     --deployment-group-name ${{ matrix.deployment-group }} \
-      #     --description "GitHub Deployment for the ${{ matrix.app-name }}-${{ github.sha }}" \
-      #     --github-location repository=${{ matrix.repo }},commitId=${{ github.sha }}
-      - name: webfactory/create-aws-codedeploy-deployment
-        uses: webfactory/create-aws-codedeploy-deployment@v0.2.2
-        with:
-          application: CodeDeployGroup2
+      - name: Deploy to AWS
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ matrix.app-name }} \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --deployment-group-name ${{ matrix.deployment-group }} \
+          --description "GitHub Deployment for the ${{ matrix.app-name }}-${{ github.sha }}" \
+          --github-location repository=${{ matrix.repo }},commitId=${{ github.sha }}
+      
