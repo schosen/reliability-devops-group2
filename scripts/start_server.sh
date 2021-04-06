@@ -1,2 +1,2 @@
 #objective: instructs application to start on VM 
-npm start
+node ./bin/www
