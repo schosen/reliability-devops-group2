@@ -1,14 +1,9 @@
 module.exports = {
-  apps : [{
-    name: "My App",
-    script: "./index.js",
-    instances: "max",
-    max_memory_restart: "256M",
-    env: {
-      NODE_ENV: "development"
-    },
-    env_production: {
-      NODE_ENV: "production"
+  "apps": [
+    {
+      "name": "NotSoQuickFix",
+      "script": "node",
+      "args": "./index.js",
     }
-  }]
-};
+  ]
+}
