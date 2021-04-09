@@ -5,7 +5,7 @@ const port = 80;
 //endpoint for tracking
 app.get('/', function(req, res) {
   console.log(req)
-  req.get({url: req, headers: req.headers});
+  req.get({url: `http://ec2-35-177-40-202.eu-west-2.compute.amazonaws.com/${req}`, headers: req.headers});
   //sendRequestToOtherEndPoint(req);
   processRequest(req);
   res.setHeader('Content-Type', 'application/json');
