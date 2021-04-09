@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: "My App",
-    script: "dist/index.js",
+    script: "index.js",
     instances: "max",
     max_memory_restart: "256M",
     env: {
