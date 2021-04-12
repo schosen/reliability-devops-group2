@@ -49,8 +49,8 @@ app.post("/*", async (req, res) => {
         'Content-Type': req.header('Content-Type'),
         Authorization: req.header("Authorization"),
       },
-      console.log(body)
-    })
+    });
+    console.log(body);
     // .then(res => res.json())
     // .then(json => console.log(json));
     
