@@ -35,12 +35,13 @@ app.get("/*", async (req, res) => {
 app.post("/*", async (req, res) => {
   let request = req.originalUrl;
   console.log(`:: POST ${request}`);
-  let attemptsLeft = 6;
+  let attemptsLeft = 4;
   let upstreamResponse;
   while (attemptsLeft > 0) {
     let upstream = `http://${TARGET_SERVER}${request}`;
-    console.log(`:: Attempt ${6 - attemptsLeft}: ${upstream}`);
+    console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
     attemptsLeft = attemptsLeft - 1;
+    const body = { a: 1 };
     upstreamResponse = await fetch(upstream, {
       method: "post",
       body: JSON.stringify(body),
