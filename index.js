@@ -30,8 +30,35 @@ app.get("/*", async (req, res) => {
   res.status(upstreamResponse.status).send(await upstreamResponse.text());
 });
 
-
+app.post("/*", async (req, res) => {
+  let request = req.originalUrl;
+  console.log(`:: POST ${request}`);
+  let attemptsLeft = 2;
+  let upstreamResponse;
+  while (attemptsLeft > 0) {
+    let upstream = `http://${TARGET_SERVER}${request}`;
+    console.log(`:: Attempt ${2 - attemptsLeft}: ${upstream}`);
+    attemptsLeft = attemptsLeft - 1;
+    upstreamResponse = await fetch(upstream, {
+        method: 'post',
+        body:    JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json', Authorization: req.header("Authorization") },
+    });
+    if (upstreamResponse.ok) { 
+      let text = await upstreamResponse.text();
+      res
+        .header("Content-Type", upstreamResponse.headers.get("content-type"))
+        .status(upstreamResponse.status)
+        .send(text);
+      console.log(":: Successful!");
+      return;
+    }
+  }
+  console.log(`:: Failed POST ${request}`);
+  res.status(upstreamResponse.status).send(await upstreamResponse.text());
+});
 
 app.listen(port, () => {
   console.log(`Relay listening at http://localhost:${port}`);
 });
+
