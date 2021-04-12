@@ -2,7 +2,7 @@ module.exports = {
   "apps": [
     {
       "name": "NotSoQuickFix",
-      "script": "node",
+      "script": "node index.js",
       "args": "./index.js",
     }
   ]
