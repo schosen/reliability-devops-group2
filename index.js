@@ -24,7 +24,7 @@ app.get("/*", async (req, res) => {
         .header("Content-Type", upstreamResponse.headers.get("content-type"))
         .status(upstreamResponse.status)
         .send(text);
-      console.log(":: Successful!");
+      console.log(":: Successful GET!");
       return;
     }
   }
@@ -35,11 +35,11 @@ app.get("/*", async (req, res) => {
 app.post("/*", async (req, res) => {
   let request = req.originalUrl;
   console.log(`:: POST ${request}`);
-  let attemptsLeft = 4;
+  let attemptsLeft = 6;
   let upstreamResponse;
   while (attemptsLeft > 0) {
     let upstream = `http://${TARGET_SERVER}${request}`;
-    console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
+    console.log(`:: Attempt ${6 - attemptsLeft}: ${upstream}`);
     attemptsLeft = attemptsLeft - 1;
     upstreamResponse = await fetch(upstream, {
       method: "post",
@@ -55,7 +55,7 @@ app.post("/*", async (req, res) => {
         .header("Content-Type", upstreamResponse.headers.get("content-type"))
         .status(upstreamResponse.status)
         .send(text);
-      console.log(":: Successful!");
+      console.log(":: Successful POST!");
       return;
     }
   }
