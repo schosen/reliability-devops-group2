@@ -41,19 +41,14 @@ app.post("/*", async (req, res) => {
     let upstream = `http://${TARGET_SERVER}${request}`;
     console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
     attemptsLeft = attemptsLeft - 1;
-    // let body = {};
     upstreamResponse = await fetch(upstream, {
       method: "post",
       body: JSON.stringify(req.body),
       headers: {
-        'Content-Type': req.header("Content-Type"),
-        Authorization: req.header("Authorization"),
+        'Authorization': req.header('Authorization'),
+        'Content-Type': req.header('Content-Type'),
       },
     })
-    // .then(res => res.json())
-    // .then(json => console.log(json));
-    console.log(body);
-
     if (upstreamResponse.ok) {
       let text = await upstreamResponse.text();
       res
@@ -65,6 +60,38 @@ app.post("/*", async (req, res) => {
     }
   }
   console.log(`:: Failed POST ${request}`);
+  res.status(upstreamResponse.status).send(await upstreamResponse.text());
+});
+
+//get.patch
+app.patch("/*", async (req, res) => {
+  let request = req.originalUrl;
+  console.log(`:: PATCH ${request}`);
+  let attemptsLeft = 4;
+  let upstreamResponse;
+  while (attemptsLeft > 0) {
+    let upstream = `http://${TARGET_SERVER}${request}`;
+    console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
+    attemptsLeft = attemptsLeft - 1;
+    upstreamResponse = await fetch(upstream, {
+      method: "patch",
+      body: JSON.stringify(req.body),
+      headers: {
+        'Authorization': req.header('Authorization'),
+        'Content-Type': req.header('Content-Type'),
+      },
+    })
+    if (upstreamResponse.ok) {
+      let text = await upstreamResponse.text();
+      res
+        .header("Content-Type", upstreamResponse.headers.get("content-type"))
+        .status(upstreamResponse.status)
+        .send(text);
+      console.log(":: Successful PATCH!");
+      return;
+    }
+  }
+  console.log(`:: Failed Patch ${request}`);
   res.status(upstreamResponse.status).send(await upstreamResponse.text());
 });
 
