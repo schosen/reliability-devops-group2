@@ -3,11 +3,10 @@
 cd ../../var/www/html/
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.nvm/nvm.sh
-#rm -r node_modules -y
 nvm install node
 npm install
-npm start &> /dev/null &
+# npm start &> /dev/null &
 
-#npm install pm2 -g
-#pm2 startOrReload ecosystem.config.json
+npm install pm2 -g
+pm2 startOrReload ecosystem.config.json
 
