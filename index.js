@@ -45,7 +45,7 @@ app.post("/*", async (req, res) => {
       method: "post",
       body: JSON.stringify(body),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': req.header('Content-Type'),
         Authorization: req.header("Authorization"),
       },
     });
