@@ -3,7 +3,7 @@ const app = express();
 const port = 80;
 const fetch = require("node-fetch");
 const TARGET_SERVER = "ec2-35-177-40-202.eu-west-2.compute.amazonaws.com";
-const body = { a: 1 };
+// const body = { a: 1 };
 app.use(express.json());
 
 app.get("/*", async (req, res) => {
@@ -41,19 +41,19 @@ app.post("/*", async (req, res) => {
     let upstream = `http://${TARGET_SERVER}${request}`;
     console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
     attemptsLeft = attemptsLeft - 1;
-    const body = { a: 1 };
+    let body = {};
     upstreamResponse = await fetch(upstream, {
       method: "post",
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': req.header('Content-Type'),
+        'Content-Type': 'application/json',
         Authorization: req.header("Authorization"),
       },
-    });
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
     console.log(body);
-    // .then(res => res.json())
-    // .then(json => console.log(json));
-    
+
     if (upstreamResponse.ok) {
       let text = await upstreamResponse.text();
       res
