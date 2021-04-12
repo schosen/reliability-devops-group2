@@ -94,6 +94,37 @@ app.patch("/*", async (req, res) => {
   console.log(`:: Failed Patch ${request}`);
   res.status(upstreamResponse.status).send(await upstreamResponse.text());
 });
+//get.delete
+app.delete("/*", async (req, res) => {
+  let request = req.originalUrl;
+  console.log(`:: DELETE ${request}`);
+  let attemptsLeft = 4;
+  let upstreamResponse;
+  while (attemptsLeft > 0) {
+    let upstream = `http://${TARGET_SERVER}${request}`;
+    console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
+    attemptsLeft = attemptsLeft - 1;
+    upstreamResponse = await fetch(upstream, {
+      method: "delete",
+      body: JSON.stringify(req.body),
+      headers: {
+        'Authorization': req.header('Authorization'),
+        'Content-Type': req.header('Content-Type'),
+      },
+    })
+    if (upstreamResponse.ok) {
+      let text = await upstreamResponse.text();
+      res
+        .header("Content-Type", upstreamResponse.headers.get("content-type"))
+        .status(upstreamResponse.status)
+        .send(text);
+      console.log(":: Successful DELETE!");
+      return;
+    }
+  }
+  console.log(`:: Failed Delete ${request}`);
+  res.status(upstreamResponse.status).send(await upstreamResponse.text());
+});
 
 app.listen(port, () => {
   console.log(`Relay listening at http://localhost:${port}`);
