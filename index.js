@@ -41,6 +41,7 @@ app.post("/*", async (req, res) => {
     let upstream = `http://${TARGET_SERVER}${request}`;
     console.log(`:: Attempt ${4 - attemptsLeft}: ${upstream}`);
     attemptsLeft = attemptsLeft - 1;
+    const body = { a: 1 };
     upstreamResponse = await fetch(upstream, {
       method: "post",
       body: JSON.stringify(body),
@@ -48,9 +49,10 @@ app.post("/*", async (req, res) => {
         'Content-Type': req.header('Content-Type'),
         Authorization: req.header("Authorization"),
       },
+      console.log(body)
     })
-    .then(res => res.json())
-    .then(json => console.log(json));
+    // .then(res => res.json())
+    // .then(json => console.log(json));
     
     if (upstreamResponse.ok) {
       let text = await upstreamResponse.text();
